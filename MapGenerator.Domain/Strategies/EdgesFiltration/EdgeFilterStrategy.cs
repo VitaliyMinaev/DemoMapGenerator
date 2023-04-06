@@ -1,9 +1,5 @@
 ﻿using MapGenerator.Domain.Strategies.EdgesFiltration.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace MapGenerator.Domain.Strategies.EdgesFiltration;
 
@@ -11,7 +7,8 @@ public class EdgeFilterStrategy : IEdgeFilterStrategy
 {
     public List<Planet> Filter(List<Planet> planets)
     {
-        List<Edge> edges = new List<Edge>();
+        var edges = new List<Edge>();
+        var crossingEdges = new List<Edge>();
 
         foreach (var planet in planets)
         {
@@ -32,9 +29,14 @@ public class EdgeFilterStrategy : IEdgeFilterStrategy
 
                 if(IsCrossing(first, second)) 
                 {
-                    edges.Remove(second);
+                    crossingEdges.Add(second);
                 }
             }
+        }
+
+        foreach(var edge in crossingEdges)
+        {
+            edges.Remove(edge);
         }
 
         List<Planet> planetsWithFilteredEdges = planets.Select(p => new Planet(p.Location,p.Name)).ToList();
@@ -52,45 +54,27 @@ public class EdgeFilterStrategy : IEdgeFilterStrategy
 
     private bool IsCrossing(Edge first, Edge second)
     {
-        double x1 = first.From.Location.X;
-        double y1 = first.From.Location.Y;
-        double x2 = first.To.Location.X;
-        double y2  = first.To.Location.Y;
-        double x3 = second.From.Location.X;
-        double y3 = second.From.Location.Y;
-        double x4 = second.To.Location.X;
-        double y4 = second.To.Location.Y;
+        var a = first.From.Location;
+        var b = first.To.Location;
+        var c = second.From.Location;
+        var d = second.To.Location;
 
-        if(x1 > x2) // если начало первой грани левее конца, то свапаем координаты
-        {
-            (x1, x2) = (x2, x1);
-            (y1, y2) = (y2, y1);
-        }
-        if (x3 > x4) // то же самое для второй
-        {
-            (x3, x4) = (x4, x3);
-            (y3, y4) = (y4, y3);
-        }
+        return BoundingBox(a.X, b.X, c.X, d.X)
+            && BoundingBox(a.Y, b.Y, c.Y, d.Y)
+            && OrientedTriangleArea(a, b, c) * OrientedTriangleArea(a, b, d) <= 0
+            && OrientedTriangleArea(a, b, c) * OrientedTriangleArea(a, b, d) <= 0;
+    }
 
-        double k1,k2;
+    private bool BoundingBox(int a, int b, int c, int d)
+    {
+        if (a > b) (a, b) = (b, a);
+        if (c > d) (c, d) = (d, c);
 
-        if (y1 == y2) k1 = 0;
-        else k1 = (y2 - y1) / (x2 - x1);
+        return Math.Max(a,c) < Math.Min(b, d);
+    }
 
-        if (y3 == y4) k2 = 0;
-        else k2 = (y4 - y3) / (x4 - x3);
-
-        if (k1 == k2) return false; // грани параллельны
-
-
-        double b1 = y1 - k1 * x1;
-        double b2 = y3 - k2 * x3;
-
-        double x = (b2 - b1) / (k2 - k1); // икс точки пересечения прямых
-
-        bool isInFirstEdge = x >= x1 && x <= x2; // проверка, принадлежит ли этот икс первой грани
-        bool isInSecondEdge = x >= x3 && x <= x4; // повторяем для второй грани
-
-        return isInFirstEdge && isInSecondEdge; // если точка принадлежит обеим граням, то они пересекаются
+    private int OrientedTriangleArea(Point a, Point b, Point c)
+    {
+        return (b.X - a.X) * (c.Y - a.Y) - (b.Y - a.Y) * (c.X - a.X);
     }
 }

@@ -6,10 +6,13 @@ public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
 {
     public void GenerateEdges(List<Planet> planets)
     {
-        for (int i = 0; i < planets.Count; i++)
+        for (int i = 0; i < planets.Count - 1; i++)
         {
             if (i + 1 == planets.Count)
                 break;
+
+            /* Connect with next planet */
+            planets[i].Connect(planets[i + 1]);
 
             int randomValue = Random.Shared.Next(0, 100);
             // 75%
@@ -31,8 +34,6 @@ public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
                 }
             }
 
-            /* Connect with next planet */
-            planets[i].Connect(planets[i + 1]);
 
             if (i != 0)
             {
