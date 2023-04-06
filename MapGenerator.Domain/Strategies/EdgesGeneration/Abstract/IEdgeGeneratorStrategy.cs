@@ -1,4 +1,4 @@
-namespace MapGenerator.Domain.Strategies.Abstract;
+namespace MapGenerator.Domain.Strategies.EdgesGeneration.Abstract;
 
 public interface IEdgeGeneratorStrategy
 {

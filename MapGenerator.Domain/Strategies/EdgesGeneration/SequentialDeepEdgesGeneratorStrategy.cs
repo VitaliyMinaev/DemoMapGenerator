@@ -1,6 +1,6 @@
-using MapGenerator.Domain.Strategies.Abstract;
+using MapGenerator.Domain.Strategies.EdgesGeneration.Abstract;
 
-namespace MapGenerator.Domain.Strategies;
+namespace MapGenerator.Domain.Strategies.EdgesGeneration;
 
 public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
 {
@@ -8,9 +8,9 @@ public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
     {
         for (int i = 0; i < planets.Count; i++)
         {
-            if(i + 1 == planets.Count)
+            if (i + 1 == planets.Count)
                 break;
-            
+
             int randomValue = Random.Shared.Next(0, 100);
             // 75%
             if (randomValue < 75)
@@ -30,7 +30,7 @@ public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
                     }
                 }
             }
-            
+
             /* Connect with next planet */
             planets[i].Connect(planets[i + 1]);
 

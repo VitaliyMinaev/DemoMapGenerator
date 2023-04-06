@@ -1,6 +1,6 @@
-using MapGenerator.Domain.Strategies.Abstract;
+using MapGenerator.Domain.Strategies.EdgesGeneration.Abstract;
 
-namespace MapGenerator.Domain.Strategies;
+namespace MapGenerator.Domain.Strategies.EdgesGeneration;
 
 public class SequentialEdgesGeneratorStrategy : IEdgeGeneratorStrategy
 {
@@ -8,7 +8,7 @@ public class SequentialEdgesGeneratorStrategy : IEdgeGeneratorStrategy
     {
         for (int i = 0; i < planets.Count; i++)
         {
-            if(i + 1 == planets.Count)
+            if (i + 1 == planets.Count)
                 break;
 
             planets[i].Connect(planets[i + 1]);

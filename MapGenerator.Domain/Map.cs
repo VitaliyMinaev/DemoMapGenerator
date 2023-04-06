@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Immutable;
 using System.Drawing;
-using MapGenerator.Domain.Strategies.Abstract;
+using MapGenerator.Domain.Strategies.EdgesFiltration.Abstract;
+using MapGenerator.Domain.Strategies.EdgesGeneration.Abstract;
 
 namespace MapGenerator.Domain;
 
@@ -24,10 +25,11 @@ public class Map : IEnumerable<Planet>
         _planets = planets;
     }
 
-    public static Map GenerateMap(IEdgeGeneratorStrategy edgeGenerator)
+    public static Map GenerateMap(IEdgeGeneratorStrategy edgeGenerator, IEdgeFilterStrategy edgeFilter)
     {
         var planets = CreatePlanets(MinX, MaxX);
         edgeGenerator.GenerateEdges(planets);
+        planets = edgeFilter.Filter(planets);
         
         return new Map(planets);
     }

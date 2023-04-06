@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using MapGenerator.Domain;
 using System.Drawing.Imaging;
-using MapGenerator.Domain.Strategies;
+using MapGenerator.Domain.Strategies.EdgesGeneration;
+using MapGenerator.Domain.Strategies.EdgesFiltration;
 
 const int width = 1000, height = 300;
 const string mapPng = "map.png";
 
-var map = Map.GenerateMap(new SequentialDeepEdgesGeneratorStrategy());
+var map = Map.GenerateMap(new SequentialDeepEdgesGeneratorStrategy(), new EdgeFilterStrategy());
 // var map = Map.GenerateMap(new SequentialEdgesGeneratorStrategy());
 // var map = Map.GenerateMap(new RandomEdgesGeneratorStrategy());
 

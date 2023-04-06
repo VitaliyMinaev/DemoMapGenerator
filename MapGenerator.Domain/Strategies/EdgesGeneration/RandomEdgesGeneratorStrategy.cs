@@ -1,6 +1,6 @@
-using MapGenerator.Domain.Strategies.Abstract;
+using MapGenerator.Domain.Strategies.EdgesGeneration.Abstract;
 
-namespace MapGenerator.Domain.Strategies;
+namespace MapGenerator.Domain.Strategies.EdgesGeneration;
 
 public class RandomEdgesGeneratorStrategy : IEdgeGeneratorStrategy
 {
@@ -10,7 +10,7 @@ public class RandomEdgesGeneratorStrategy : IEdgeGeneratorStrategy
         {
             foreach (var localPlanet in planets)
             {
-                if(planet.Name == localPlanet.Name)
+                if (planet.Name == localPlanet.Name)
                     continue;
 
                 if (Random.Shared.Next(0, 100) < 10)
