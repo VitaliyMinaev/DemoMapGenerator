@@ -24,7 +24,7 @@ public class Map : IEnumerable<Planet>
         _planets = planets;
     }
 
-    public static Map GenerateRandomMap(IEdgeGeneratorStrategy edgeGenerator)
+    public static Map GenerateMap(IEdgeGeneratorStrategy edgeGenerator)
     {
         var planets = CreatePlanets(MinX, MaxX);
         edgeGenerator.GenerateEdges(planets);
