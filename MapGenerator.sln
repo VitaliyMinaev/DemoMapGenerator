@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGenerator.UI", "MapGenerator.UI\MapGenerator.UI.csproj", "{849E12C9-383E-4996-9F1C-D4E39B4196E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapGenerator.Domain", "MapGenerator.Domain\MapGenerator.Domain.csproj", "{8DE8B627-0414-4287-940F-6D329F9B7BEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{849E12C9-383E-4996-9F1C-D4E39B4196E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849E12C9-383E-4996-9F1C-D4E39B4196E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849E12C9-383E-4996-9F1C-D4E39B4196E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849E12C9-383E-4996-9F1C-D4E39B4196E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DE8B627-0414-4287-940F-6D329F9B7BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DE8B627-0414-4287-940F-6D329F9B7BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DE8B627-0414-4287-940F-6D329F9B7BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DE8B627-0414-4287-940F-6D329F9B7BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
