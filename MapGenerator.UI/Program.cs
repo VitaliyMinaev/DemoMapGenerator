@@ -2,11 +2,12 @@
 using MapGenerator.Domain;
 using System.Drawing;
 using System.Drawing.Imaging;
+using MapGenerator.Domain.Strategies;
 
 const int width = 1000;
 int height = 300;
 
-var map = Map.GenerateRandomMap();
+var map = Map.GenerateRandomMap(new SequentialDeepEdgesGeneratorStrategy());
 
 foreach (var planet in map)
 {

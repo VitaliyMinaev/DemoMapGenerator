@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Immutable;
 using System.Drawing;
+using MapGenerator.Domain.Strategies.Abstract;
 
 namespace MapGenerator.Domain;
 
@@ -23,91 +24,13 @@ public class Map : IEnumerable<Planet>
         _planets = planets;
     }
 
-    public static Map GenerateRandomMap()
+    public static Map GenerateRandomMap(IEdgeGeneratorStrategy edgeGenerator)
     {
         var planets = CreatePlanets(MinX, MaxX);
-
-        GenerateEdgeByOrder(planets);
+        edgeGenerator.GenerateEdges(planets);
         
         return new Map(planets);
     }
-
-    private static void GenerateEdgeByOrder(List<Planet> planets)
-    {
-        for (int i = 0; i < planets.Count; i++)
-        {
-            if(i + 1 == planets.Count)
-                break;
-            
-            int randomValue = Random.Shared.Next(0, 100);
-            // 75%
-            if (randomValue < 75)
-            {
-                if (i + 2 >= planets.Count)
-                {
-                    continue;
-                }
-                else
-                {
-                    /* Connect with planet after next planet */
-                    planets[i].Connect(planets[i + 2]);
-
-                    if (i != 0)
-                    {
-                        planets[i].Connect(planets[i - 1]);
-                    }
-                }
-            }
-            
-            /* Connect with next planet */
-            planets[i].Connect(planets[i + 1]);
-
-            if (i != 0)
-            {
-                planets[i].Connect(planets[i - 1]);
-            }
-        }
-    }
-    /// <summary>
-    /// Sequential generation
-    /// </summary>
-    /// <param name="planets"></param>
-    private static void GenerateSequentialEdges(List<Planet> planets)
-    {
-        for (int i = 0; i < planets.Count; i++)
-        {
-            if(i + 1 == planets.Count)
-                break;
-
-            planets[i].Connect(planets[i + 1]);
-
-            if (i != 0)
-            {
-                planets[i].Connect(planets[i - 1]);
-            }
-        }
-    } 
-    private static void GenerateRandomEdges(List<Planet> planets)
-    {
-        foreach (var planet in planets)
-        {
-            foreach (var localPlanet in planets)
-            {
-                if(planet.Name == localPlanet.Name)
-                    continue;
-
-                if (Random.Shared.Next(0, 100) < 10)
-                {
-                    planet.Connect(localPlanet);
-                }
-                if (Random.Shared.Next(0, 100) < 50)
-                {
-                    localPlanet.Connect(planet);
-                }
-            }
-        }
-    }
-
     private static List<Planet> CreatePlanets(int minX, int maxX)
     {
         return Enumerable.Range(0, CountOfPlanets)
@@ -115,7 +38,7 @@ public class Map : IEnumerable<Planet>
             .OrderBy(x => x.Location.X)
             .ToList();
     }
-
+    
     public IEnumerator<Planet> GetEnumerator()
     {
         foreach (var item in _planets)
