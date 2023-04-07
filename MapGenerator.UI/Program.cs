@@ -5,16 +5,20 @@ using MapGenerator.Domain.Strategies.EdgesGeneration;
 using MapGenerator.Domain.Strategies.EdgesFiltration;
 
 const int width = 1000, height = 300;
-const string mapPng = "map.png";
+const string imageName = "map";
+const string extention = ".png";
 
-var map = Map.GenerateMap(new SequentialDeepEdgesGeneratorStrategy(), new EdgeFilterStrategy());
-// var map = Map.GenerateMap(new SequentialEdgesGeneratorStrategy());
-// var map = Map.GenerateMap(new RandomEdgesGeneratorStrategy());
+for (int i = 0; i < 10; i++)
+{
+    var map = Map.GenerateMap(new SequentialDeepEdgesGeneratorStrategy(), new EdgeFilterStrategy());
+    // var map = Map.GenerateMap(new SequentialEdgesGeneratorStrategy());
+    // var map = Map.GenerateMap(new RandomEdgesGeneratorStrategy());
+    DrawMap(map, i);
+}
 
-DrawMap(map);
-Console.WriteLine("Bitmap has been created!");
+Console.WriteLine("Bitmaps have been created!");
 
-static void DrawMap(Map map)
+static void DrawMap(Map map,int number)
 {
     var b = new Bitmap(width, height);
     using (Graphics g = Graphics.FromImage(b))
@@ -41,7 +45,7 @@ static void DrawMap(Map map)
         }
     }
 
-    b.Save(mapPng, ImageFormat.Png);
+    b.Save($"{imageName}{number}{extention}", ImageFormat.Png);
     b.Dispose();
 }
 static void DrawPoint(Point point, Graphics g, Pen pen)

@@ -62,7 +62,7 @@ public class EdgeFilterStrategy : IEdgeFilterStrategy
         return BoundingBox(a.X, b.X, c.X, d.X)
             && BoundingBox(a.Y, b.Y, c.Y, d.Y)
             && OrientedTriangleArea(a, b, c) * OrientedTriangleArea(a, b, d) <= 0
-            && OrientedTriangleArea(a, b, c) * OrientedTriangleArea(a, b, d) <= 0;
+            && OrientedTriangleArea(c, d, a) * OrientedTriangleArea(c, d, b) <= 0;
     }
 
     private bool BoundingBox(int a, int b, int c, int d)

@@ -8,8 +8,6 @@ public class SequentialDeepEdgesGeneratorStrategy : IEdgeGeneratorStrategy
     {
         for (int i = 0; i < planets.Count - 1; i++)
         {
-            if (i + 1 == planets.Count)
-                break;
 
             /* Connect with next planet */
             planets[i].Connect(planets[i + 1]);
