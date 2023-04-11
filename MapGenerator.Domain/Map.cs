@@ -15,7 +15,7 @@ public class Map : IEnumerable<Planet>
 {
     private ICollection<Planet> _planets;
     public IReadOnlyCollection<Planet> Planets { get => _planets.ToImmutableList(); }
-    private const int CountOfStage = 1, MinX = 0, MaxX = 1000, CountOfPlanets = 50, MaxY = 300;
+    private const int CountOfStage = 1, MinX = 0, MaxX = 1000, CountOfPlanets = 20, MaxY = 300;
     public Map()
     {
         _planets = new List<Planet>();
@@ -28,8 +28,8 @@ public class Map : IEnumerable<Planet>
     public static Map GenerateMap(IEdgeGeneratorStrategy edgeGenerator, IEdgeFilterStrategy edgeFilter)
     {
         var planets = CreatePlanets(MinX, MaxX);
-        // edgeGenerator.GenerateEdges(planets);
-        // planets = edgeFilter.Filter(planets);
+        edgeGenerator.GenerateEdges(planets);
+        planets = edgeFilter.Filter(planets);
         
         return new Map(planets);
     }
