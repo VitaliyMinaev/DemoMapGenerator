@@ -15,7 +15,7 @@ public class Map : IEnumerable<Planet>
 {
     private ICollection<Planet> _planets;
     public IReadOnlyCollection<Planet> Planets { get => _planets.ToImmutableList(); }
-    private const int CountOfStage = 1, MinX = 0, MaxX = 1000, CountOfPlanets = 10, MaxY = 300;
+    private const int CountOfStage = 1, MinX = 0, MaxX = 1000, CountOfPlanets = 50, MaxY = 300;
     public Map()
     {
         _planets = new List<Planet>();
@@ -28,17 +28,43 @@ public class Map : IEnumerable<Planet>
     public static Map GenerateMap(IEdgeGeneratorStrategy edgeGenerator, IEdgeFilterStrategy edgeFilter)
     {
         var planets = CreatePlanets(MinX, MaxX);
-        edgeGenerator.GenerateEdges(planets);
-        planets = edgeFilter.Filter(planets);
+        // edgeGenerator.GenerateEdges(planets);
+        // planets = edgeFilter.Filter(planets);
         
         return new Map(planets);
     }
     private static List<Planet> CreatePlanets(int minX, int maxX)
     {
-        return Enumerable.Range(0, CountOfPlanets)
-            .Select(x => new Planet(new Point(Random.Shared.Next(minX, maxX), Random.Shared.Next(0, MaxY)),$"Planet: #{x}"))
+        const int appropriateDistanceBetweenPlanets = 50;
+
+        var points = new List<Point>();
+        var planets = Enumerable.Range(0, CountOfPlanets)
+            .Select(x =>
+            {
+                var currentLocation = new Point(Random.Shared.Next(minX, maxX), Random.Shared.Next(0, MaxY));
+                while (true)
+                {
+                    currentLocation = new Point(Random.Shared.Next(minX, maxX), Random.Shared.Next(0, MaxY));
+
+                    if (points.Any(point =>
+                            CalculateDistanceBetweenPoints(point, currentLocation) < appropriateDistanceBetweenPlanets) == false)
+                    {
+                        points.Add(currentLocation);
+                        break;
+                    }
+                }
+                
+                return new Planet(currentLocation, $"Planet: #{x}");
+            })
             .OrderBy(x => x.Location.X)
             .ToList();
+
+        return planets;
+    }
+
+    private static double CalculateDistanceBetweenPoints(Point a, Point b)
+    {
+        return Math.Sqrt(Math.Pow(b.X - a.X, 2) + Math.Pow(b.Y - a.Y, 2));
     }
     
     public IEnumerator<Planet> GetEnumerator()
