@@ -1,72 +1,43 @@
 ﻿using System.Drawing;
-using MapGenerator.Domain;
-using System.Drawing.Imaging;
-using MapGenerator.Domain.Strategies.EdgesGeneration;
-using MapGenerator.Domain.Strategies.EdgesFiltration;
+using MapGenerator.Domain.Models;
+using MapGenerator.Domain.Strategies;
 
-const int width = 1000, height = 300;
-const string imageName = "map";
-const string extention = ".png";
+const int width = 1000, height = 900;
 
 for (int i = 0; i < 10; i++)
 {
-    var map = Map.GenerateMap(new SequentialDeepEdgesGeneratorStrategy(), new EdgeFilterStrategy());
-    // var map = Map.GenerateMap(new SequentialEdgesGeneratorStrategy());
-    // var map = Map.GenerateMap(new RandomEdgesGeneratorStrategy());
-    DrawMap(map, i);
+    var options = new MapGenerationOptions(width, height, 50, 25, 60);
+    var map = new MapGeneratorService().GenerateMap(options);
+
+    try
+    {
+        DrawMap(map, options, $"map-{i}.bmp");
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+        throw;
+    }
 }
 
-Console.WriteLine("Bitmaps have been created!");
-
-static void DrawMap(Map map,int number)
+void DrawMap(Map map, MapGenerationOptions options, string fileName)
 {
-    var b = new Bitmap(width, height);
-    using (Graphics g = Graphics.FromImage(b))
+    Bitmap bmp = new Bitmap(options.Width, options.Height);
+
+    using (Graphics g = Graphics.FromImage(bmp))
     {
         g.Clear(Color.White);
-    
-        foreach (var planet in map)
+                
+        foreach (Planet planet in map.Planets)
         {
-            using (Pen pen = new Pen(Color.Red, 10))
-            {
-                DrawPoint(planet.Location, g, pen);
-            }
+            g.FillEllipse(Brushes.Red, planet.Position.X - 5, planet.Position.Y - 5, 10, 10);
         }
-
-        foreach (var planet in map)
+        foreach (Edge connection in map.Connections)
         {
-            foreach (var edge in planet.Edges)
-            {
-                using (Pen pen = new Pen(Color.Black, 1))
-                {
-                    DrawLine(edge.From.Location, edge.To.Location, g, pen);
-                }
-            }
+            g.DrawLine(Pens.Black, new PointF(connection.From.Position.X, connection.From.Position.Y), 
+                new PointF(connection.To.Position.X, connection.To.Position.Y));
         }
     }
 
-    b.Save($"{imageName}{number}{extention}", ImageFormat.Png);
-    b.Dispose();
-}
-static void DrawPoint(Point point, Graphics g, Pen pen)
-{
-    g.DrawEllipse(pen, point.X, point.Y, 2, 2);
-}
-static void DrawLine(Point from, Point to, Graphics g, Pen pen)
-{
-    g.DrawLine(pen, from, to);
-}
-static void PrintInfoAboutMap(Map map)
-{
-    foreach (var planet in map)
-    {
-        Console.WriteLine(planet);
-
-        foreach (var edge in planet.Edges)
-        {
-            Console.WriteLine(edge);
-        }
-
-        Console.WriteLine("======================================================");
-    }
+    bmp.Save(fileName);
 }
