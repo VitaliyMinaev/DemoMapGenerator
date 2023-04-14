@@ -10,7 +10,10 @@ The console application included in the repository uses the class library to gen
 Overall, this repository provides a useful tool for generating random maps of planets and their connections, which could be used for various purposes, such as game development or visualization.
 
 ## 🧿 Created maps using various algorithms
-![image](https://user-images.githubusercontent.com/87979065/230389901-f12f0a72-820b-4a46-96b1-39be36824235.png)
-![map](https://user-images.githubusercontent.com/87979065/230390237-c505fb18-77c1-409c-aa25-786609ae722c.png)
-![image](https://user-images.githubusercontent.com/87979065/230390279-89ad4e9a-4a91-436b-8b40-470595624819.png)
-![image](https://user-images.githubusercontent.com/87979065/230390260-5e8cc1e3-511a-4cc0-a858-13dbc7c2ae1d.png)
+![map-3](https://user-images.githubusercontent.com/87979065/232127879-4c0d4310-20b6-4087-961b-7d37278a5872.png)
+![map-4](https://user-images.githubusercontent.com/87979065/232127911-93bed701-b303-47aa-8026-47e2b5498edf.png)
+![map-5](https://user-images.githubusercontent.com/87979065/232127912-82a1cf89-59e9-4a36-ade7-b0564da35c59.png)
+![map-6](https://user-images.githubusercontent.com/87979065/232127913-645c460b-d168-459c-bcda-54618b90cbe6.png)
+![map-0](https://user-images.githubusercontent.com/87979065/232127915-52d3b731-32e3-4938-b538-1ef85e529434.png)
+![map-1](https://user-images.githubusercontent.com/87979065/232127918-576d1f5b-8736-438b-8568-6d79264a7725.png)
+![map-2](https://user-images.githubusercontent.com/87979065/232127920-1f31535c-89f8-4604-b0c2-076ddd8eeafd.png)
