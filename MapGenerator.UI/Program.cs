@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using MapGenerator.Domain.Models;
 using MapGenerator.Domain.Strategies;
 
@@ -6,12 +7,12 @@ const int width = 1000, height = 900;
 
 for (int i = 0; i < 10; i++)
 {
-    var options = new MapGenerationOptions(width, height, 50, 25, 60);
+    var options = new MapGenerationOptions(width, height, 50, 25, 100);
     var map = new MapGeneratorService().GenerateMap(options);
 
     try
     {
-        DrawMap(map, options, $"map-{i}.bmp");
+        DrawMap(map, options, $"map-{i}.png");
     }
     catch (Exception e)
     {
@@ -39,5 +40,5 @@ void DrawMap(Map map, MapGenerationOptions options, string fileName)
         }
     }
 
-    bmp.Save(fileName);
+    bmp.Save(fileName, ImageFormat.Png);
 }
